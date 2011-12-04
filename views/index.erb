@@ -1,0 +1,24 @@
+<html>
+<body>
+
+<h1> Yet Another IMAP Client </h1>
+
+<a href="/todo">TODO</a>
+
+<ul>
+  <% @mails.each do |mail| %>
+    <li><a href="#<%= mail['message_id']%>"><%= mail['subject'] %></a></li>
+  <% end %>
+</ul>
+
+<% @mails.each do |mail| %>
+  <div id="<%= mail['message_id'] %>">
+    <h2><%= mail['subject'] %></h2>
+    <pre>
+      <%=h mail['body'] %>
+    </pre>
+  </div>
+  <hr />
+<% end %>
+</body>
+</html>

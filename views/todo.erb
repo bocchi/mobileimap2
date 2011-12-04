@@ -1,0 +1,15 @@
+<html>
+<body>
+
+<h1> Yet Another TODO:</h1>
+
+<a href="/">top</a>
+
+<ul>
+  <% @todo.each do |item| %>
+    <li><%= item %></li>
+  <% end %>
+</ul>
+
+</body>
+</html>
