@@ -1,8 +1,40 @@
-mobileimap - an IMAP-based web mailer for mobile-phones.
+===================================
+README
+===================================
 
-Please visit the web site for details.
-<http://namazu.org/~satoru/mobileimap/>
 
--- 
-Satoru Takabayashi
-<satoru@namazu.org>
+まずローカルで動かすために
+===================================
+
+下記のモジュールをインストールする必要があります。(いらないやつもあるかも)
+
+* sinatra
+* pit
+* rack
+* kconv
+
+下記のコマンドを叩くと、エディターが立ち上がるので、自分のGmailのアカウントをハッシュ形式で記述します。
+
+::
+
+    pit set mobileimap2
+
+    ex)
+    --- 
+    address: hogehoge@gmail.com
+    pass: hogehoge
+
+
+下記のコマンドで、サーバが起動します。http://localhost:3456 にアクセスしてみてメールが見れることを確認してください。\
+何か問題がある場合にはコンソールにエラーログが吐かれるので、そこを参照してください。
+
+
+::
+
+    rackup -I./ config.ru --port 3456
+
+herokuで動かすために
+===================================
+
+
+TODO: あとでかく

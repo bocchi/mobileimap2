@@ -7,7 +7,7 @@ require 'pp'
 class GmailClient
   def initialize
     config = Pit.get(
-      'yagc',
+      'mobileimap2',
       :requre => {
         'address' => 'your gmail address',
         'pass'    => 'your gmail password'
