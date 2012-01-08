@@ -1,45 +1,42 @@
-# coding: utf-8
-require 'net/imap'
+require 'digest/sha1'
+require 'gmail'
 require 'kconv'
-require 'pit'
 require 'pp'
 
 class GmailClient
-  def initialize
-    config = Pit.get(
-      'mobileimap2',
-      :requre => {
-        'address' => 'your gmail address',
-        'pass'    => 'your gmail password'
-      }
-    );
+  @@gmails = {}
 
-    @imap = Net::IMAP.new(
-      'imap.gmail.com',
-      :port => 993,
-      :ssl  => {
-        :verify_mode => OpenSSL::SSL::VERIFY_NONE
-      }
-    )
-
-    @imap.login(config['address'], config['pass'])
-    @imap.select('INBOX')
+  def initialize(address, password)
+    # XXX: あまりいけてないけど、ログインが遅いっぽいのでインスタンスキャッシュしている
+    digested = Digest::SHA1.hexdigest(address + '::' + password)
+    if @@gmails[digested]
+      @gmail = @@gmails[digested]
+    else
+      @gmail = Gmail.new(address, password)
+      @@gmails[digested] = @gmail
+    end
   end
 
   def list_new_mail
-    content = ''
-    mails = []
-    @imap.search(['UNSEEN']).each_with_index do |message_id, i|
-      fetch_data = @imap.fetch(message_id, ['ENVELOPE', 'BODY.PEEK[TEXT]'])[0]
-      envelope = fetch_data.attr['ENVELOPE']
-      data = {
-        'message_id' => message_id,
-        'subject'    => envelope.subject ? envelope.subject.toutf8 : 'no subject',
-        'body'       => fetch_data.attr['BODY[TEXT]'].toutf8,
+    @gmail.inbox.mails(:unseen).map do |mail|
+      body =''
+      if mail.multipart?
+        mail.parts.each do |part|
+          body = part.decoded.toutf8 if /^text\/plain;/ =~ part.content_type
+        end
+      else
+        body = mail.body.decoded.toutf8
+      end
+
+      # XXX: 既読フラグを落とす
+      mail.mark(:unread)
+      {
+        :message_id => mail.message_id,
+        :subject    => mail.subject ? mail.subject.toutf8 : 'no subject',
+        :body       => body,
       }
-      mails.push data
     end
-    return mails
   end
 end
+
 

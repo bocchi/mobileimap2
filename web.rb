@@ -3,23 +3,33 @@ require 'sinatra/base'
 require 'erb'
 require './gmail_client'
 
+require 'padrino-core'
+
 class Web < Sinatra::Base
   include ERB::Util
+  enable :sessions
+  disable :logging
+
+  use Padrino::Logger::Rack, '/'
+
   get '/' do
-    client = GmailClient.new
+    if ! session["address"] and ! session["password"]
+      redirect '/login'
+    end
+
+    client = GmailClient.new(session["address"], session["password"])
     @mails = client.list_new_mail
     erb :index
   end
 
-  get '/todo' do
-    @todo = [
-      'css',
-      'おーとぺーじゃー',
-      '表示させたら既読にする',
-      '未読にする',
-      'layout',
-    ]
-    erb :todo
+  get '/login' do
+    erb :login
+  end
+
+  post '/login' do
+    session["address"]  = params[:address]
+    session["password"] = params[:password]
+    redirect '/'
   end
 end
 
