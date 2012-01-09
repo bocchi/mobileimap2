@@ -9,12 +9,13 @@ class Web < Sinatra::Base
   use Rack::Session::Cookie
 
   get '/' do
-    if ! session["address"] and ! session["password"]
+    if ! session["address"] or ! session["password"]
       redirect '/login'
     end
 
     client = GmailClient.new(session["address"], session["password"])
     @mails = client.list_new_mail
+    session["login"] = 1
     erb :index
   end
 
@@ -26,6 +27,17 @@ class Web < Sinatra::Base
     session["address"]  = params[:address]
     session["password"] = params[:password]
     redirect '/'
+  end
+
+  post '/logout' do
+    if ! session["login"]
+      redirect '/login'
+    end
+
+    session["login"]    = nil
+    session["address"]  = nil
+    session["password"] = nil
+    redirect '/login'
   end
 end
 
