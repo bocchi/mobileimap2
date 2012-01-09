@@ -11,9 +11,7 @@
 <% @mails.each do |mail| %>
   <div id="<%= mail[:message_id] %>">
     <h2><%= mail[:subject] %></h2>
-    <pre>
-      <%=h mail[:body] %>
-    </pre>
+    <pre><%=h mail[:body] %></pre>
   </div>
   <hr />
 <% end %>
