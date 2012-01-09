@@ -8,7 +8,7 @@ require './gmail_client'
 class Web < Sinatra::Base
   include ERB::Util
   enable :sessions
-  disable :logging
+#  disable :logging
 
 #  use Padrino::Logger::Rack, '/'
 
