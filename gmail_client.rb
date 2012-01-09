@@ -1,20 +1,11 @@
-require 'digest/sha1'
 require 'gmail'
 require 'kconv'
 require 'pp'
 
 class GmailClient
-  @@gmails = {}
 
   def initialize(address, password)
-    # XXX: あまりいけてないけど、ログインが遅いっぽいのでインスタンスキャッシュしている
-    digested = Digest::SHA1.hexdigest(address + '::' + password)
-    if @@gmails[digested]
-      @gmail = @@gmails[digested]
-    else
-      @gmail = Gmail.new(address, password)
-      @@gmails[digested] = @gmail
-    end
+    @gmail = Gmail.new(address, password)
   end
 
   def list_new_mail
