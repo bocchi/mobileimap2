@@ -8,26 +8,16 @@ README
 
 下記のモジュールをインストールする必要があります。(いらないやつもあるかも)
 
-* sinatra
-* pit
-* rack
-* kconv
+* bundler
 
-下記のコマンドを叩くと、エディターが立ち上がるので、自分のGmailのアカウントをハッシュ形式で記述します。
+下記のコマンドを叩くと、必要なモジュールが入るはず
 
 ::
 
-    pit set mobileimap2
-
-    ex)
-    --- 
-    address: hogehoge@gmail.com
-    pass: hogehoge
-
+    bundler install
 
 下記のコマンドで、サーバが起動します。http://localhost:3456 にアクセスしてみてメールが見れることを確認してください。\
 何か問題がある場合にはコンソールにエラーログが吐かれるので、そこを参照してください。
-
 
 ::
 
@@ -36,5 +26,19 @@ README
 herokuで動かすために
 ===================================
 
+Herokuのアカウントを作ってください。その後、以下のコマンドでサーバを作成、起動してくだい。
+
+::
+
+    heroku create
+
+以下のコマンドを叩くとデプロイできます。
+
+::
+
+    git push heroku master
+
 
 TODO: あとでかく
+
+ちょっとHerokuだと Net::IMAP::BadResponseErrorが出ているので、ログイン画面しか出せないです。
