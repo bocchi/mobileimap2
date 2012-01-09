@@ -3,14 +3,14 @@ require 'sinatra/base'
 require 'erb'
 require './gmail_client'
 
-require 'padrino-core'
+#require 'padrino-core'
 
 class Web < Sinatra::Base
   include ERB::Util
   enable :sessions
   disable :logging
 
-  use Padrino::Logger::Rack, '/'
+#  use Padrino::Logger::Rack, '/'
 
   get '/' do
     if ! session["address"] and ! session["password"]
