@@ -38,7 +38,4 @@ Herokuのアカウントを作ってください。その後、以下のコマ�
 
     git push heroku master
 
-
-TODO: あとでかく
-
-ちょっとHerokuだと Net::IMAP::BadResponseErrorが出ているので、ログイン画面しか出せないです。
+ちょっとHerokuだと、ネットワークの問題か Net::IMAP::BadResponseErrorが出ることがあります。時間をおくと直ることも。ちょっと原因探索中。
