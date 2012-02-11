@@ -1,23 +1,23 @@
 <div class="hero-unit">
   <h1> mobile imap2 </h1>
-
+  <% if @access_token %>
   <form action="/logout" method="post">
     <fieldset>
       <input type="submit" class="btn primary" value="ログアウト" />
     </fieldset>
   </form>
+  <% else %>
+  <a href="/request"><img src="https://github.com/intridea/authbuttons/raw/master/png/google_64.png" alt="Google OpenID で認証"/>Google OpenID で認証</a>
+  <% end %>
 </div>
 
-<ul>
+<% if @mails %>
+  <div>
   <% @mails.each do |mail| %>
-    <li><a href="#<%= mail[:message_id]%>"><%= mail[:subject] %></a></li>
+    <div id="<%=h mail[:message_id] %>">
+      <h2><%=h mail[:subject] %></h2>
+      <pre><%=h mail[:body] %></pre>
+    </div>
   <% end %>
-</ul>
-
-<% @mails.each do |mail| %>
-  <div id="<%= mail[:message_id] %>">
-    <h2><%= mail[:subject] %></h2>
-    <pre><%=h mail[:body] %></pre>
   </div>
-  <hr />
 <% end %>

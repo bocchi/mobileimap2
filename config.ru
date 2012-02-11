@@ -1,4 +1,5 @@
 require './web'
 
-run Web.new
+run Sinatra::Application
+
 
