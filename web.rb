@@ -47,7 +47,7 @@ get '/' do
     )
     imap.select('INBOX')
     @mails = []
-    imap.search(['ALL']).each_with_index do |message_id, i|
+    imap.search(['UNSEEN']).each_with_index do |message_id, i|
       fetch_data = imap.fetch(message_id, ['ENVELOPE', 'BODY.PEEK[TEXT]'])[0]
       envelope = fetch_data.attr['ENVELOPE']
       @mails << {
